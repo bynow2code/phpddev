@@ -1,20 +1,20 @@
 # 开发环境选择不用 Alpine 版本，用 Debian 完整版
-FROM php:8.2.29-fpm
+FROM php:8.3.6-fpm
 
-# 安装 PHP 扩展安装工具
-ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-RUN chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions redis pdo_mysql xdebug
+# 安装常用扩展
+RUN docker-php-ext-install pdo_mysql
+RUN pecl install redis xdebug && docker-php-ext-enable redis xdebug
 
-# 配置 Xdebug 调试
-RUN echo "xdebug.mode=debug,develop" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-    echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-    echo "xdebug.client_port=9003" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-    echo "xdebug.discover_client_host=0" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-    echo "xdebug.max_nesting_level=500" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-    echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+# 配置 Xdebug
+RUN echo "xdebug.mode=develop,debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.client_host=host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-# 开发:
-RUN cp $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
+# 安装 Composer（可选，也可以在单独的 composer 容器中做）
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-COPY --from=composer:2.8.10 /usr/bin/composer /usr/bin/composer
+# 工作目录
+WORKDIR /usr/share/nginx/html
+
+# 前台运行 php-fpm
+CMD ["php-fpm"]
