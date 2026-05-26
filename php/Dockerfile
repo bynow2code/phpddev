@@ -1,16 +1,6 @@
 # 开发环境选择不用 Alpine 版本，用 Debian 完整版
 FROM php:8.2.29-fpm
 
-# 配置 Debian 源并安装依赖
-# RUN apt-get update && apt-get install -y --no-install-recommends \
-#     # 新增开发常用工具
-#     vim \
-#     git \
-#     curl \
-#     unzip \
-#     # 清理缓存减少镜像体积
-#     && rm -rf /var/lib/apt/lists/*  
-
 # 安装 PHP 扩展安装工具
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-php-extensions && \
