@@ -32,7 +32,7 @@ services:
     expose:
       - "9000"
     volumes:
-      - ${PROJECT_ROOT}:/usr/share/nginx/html:delegated
+      - ${PROJECT_ROOT}:/usr/share/nginx/html:cached 
     depends_on:
       - mysql
       - redis
@@ -45,7 +45,7 @@ services:
       TZ: Asia/Shanghai
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
-      - ${PROJECT_ROOT}:/usr/share/nginx/html:delegated
+      - ${PROJECT_ROOT}:/usr/share/nginx/html:cached 
     ports:
       - "80:80"
     depends_on:
