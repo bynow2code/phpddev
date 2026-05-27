@@ -58,3 +58,7 @@ services:
 volumes:
   mysql_data:
   redis_data:
+
+networks:
+  dev_net:
+    driver: bridge
