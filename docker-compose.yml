@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
 
   mysql:
@@ -32,6 +34,8 @@ services:
       dockerfile: php/Dockerfile
     environment:
       TZ: Asia/Shanghai
+    expose:
+      - "9000"
     volumes:
       - ../www:/usr/share/nginx/html:delegated
     depends_on:
