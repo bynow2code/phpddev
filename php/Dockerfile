@@ -18,4 +18,6 @@ RUN echo "xdebug.mode=develop,debug" >> /usr/local/etc/php/conf.d/docker-php-ext
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+USER www-data
+
 WORKDIR /usr/share/nginx/html
