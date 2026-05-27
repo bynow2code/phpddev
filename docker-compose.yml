@@ -1,9 +1,6 @@
-version: '3.8'
-
 services:
 
   mysql:
-    container_name: mysql
     image: mysql:8.0.45
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -16,7 +13,6 @@ services:
       - dev_net
 
   redis:
-    container_name: redis
     image: redis:7.0.15
     environment:
       TZ: Asia/Shanghai
@@ -28,7 +24,6 @@ services:
       - dev_net
 
   php:
-    container_name: php
     build:
       context: .
       dockerfile: php/Dockerfile
@@ -46,7 +41,6 @@ services:
 
   nginx:
     image: nginx:1.24.0
-    container_name: nginx
     environment:
       TZ: Asia/Shanghai
     volumes:
