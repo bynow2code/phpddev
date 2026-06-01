@@ -32,10 +32,7 @@ services:
     expose:
       - "9000"
     volumes:
-      - ${PROJECT_ROOT}:/usr/share/nginx/html:cached 
-    depends_on:
-      - mysql
-      - redis
+      - ${PROJECT_ROOT}:/usr/share/nginx/html:cached
     networks:
       - dev_net
 
@@ -48,8 +45,6 @@ services:
       - ${PROJECT_ROOT}:/usr/share/nginx/html:cached 
     ports:
       - "80:80"
-    depends_on:
-      - php
     networks:
       - dev_net
 
