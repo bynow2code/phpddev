@@ -29,6 +29,7 @@ services:
       dockerfile: php/Dockerfile
     environment:
       TZ: Asia/Shanghai
+      PHP_IDE_CONFIG: "serverName=localhost"
     expose:
       - "9000"
     volumes:
