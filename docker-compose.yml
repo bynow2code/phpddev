@@ -23,18 +23,65 @@ services:
     networks:
       - dev_net
 
-  php:
+  core:
     build:
       context: .
       dockerfile: php/Dockerfile
     environment:
       TZ: Asia/Shanghai
+      PHP_IDE_CONFIG: "serverName=core.localhost"
     expose:
       - "9000"
     volumes:
-      - ${PROJECT_ROOT}:/usr/share/nginx/html:cached
+      - ${PROJECT_ROOT}/core:/usr/share/nginx/html/core:cached
     networks:
       - dev_net
+    working_dir: /usr/share/nginx/html/core
+
+  oms:
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+    environment:
+      TZ: Asia/Shanghai
+      PHP_IDE_CONFIG: "serverName=oms.localhost"
+    expose:
+      - "9000"
+    volumes:
+      - ${PROJECT_ROOT}/oms:/usr/share/nginx/html/oms:cached
+    networks:
+      - dev_net
+    working_dir: /usr/share/nginx/html/oms
+
+  wms:
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+    environment:
+      TZ: Asia/Shanghai
+      PHP_IDE_CONFIG: "serverName=wms.localhost"
+    expose:
+      - "9000"
+    volumes:
+      - ${PROJECT_ROOT}/wms:/usr/share/nginx/html/wms:cached
+    networks:
+      - dev_net
+    working_dir: /usr/share/nginx/html/wms
+
+  pms:
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+    environment:
+      TZ: Asia/Shanghai
+      PHP_IDE_CONFIG: "serverName=pms.localhost"
+    expose:
+      - "9000"
+    volumes:
+      - ${PROJECT_ROOT}/pms:/usr/share/nginx/html/pms:cached
+    networks:
+      - dev_net
+    working_dir: /usr/share/nginx/html/pms
 
   nginx:
     image: nginx:1.24.0
