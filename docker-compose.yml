@@ -37,10 +37,6 @@ services:
     networks:
       - dev_net
     working_dir: /usr/share/nginx/html/core
-    extra_hosts:
-      - "oms.localhost:nginx"
-      - "wms.localhost:nginx"
-      - "pms.localhost:nginx"
 
   oms:
     build:
@@ -56,10 +52,6 @@ services:
     networks:
       - dev_net
     working_dir: /usr/share/nginx/html/oms
-    extra_hosts:
-      - "core.localhost:nginx"
-      - "wms.localhost:nginx"
-      - "pms.localhost:nginx"
 
   wms:
     build:
@@ -75,10 +67,6 @@ services:
     networks:
       - dev_net
     working_dir: /usr/share/nginx/html/wms
-    extra_hosts:
-      - "core.localhost:nginx"
-      - "oms.localhost:nginx"
-      - "pms.localhost:nginx"
 
   pms:
     build:
@@ -94,10 +82,6 @@ services:
     networks:
       - dev_net
     working_dir: /usr/share/nginx/html/pms
-    extra_hosts:
-      - "core.localhost:nginx"
-      - "oms.localhost:nginx"
-      - "wms.localhost:nginx"
 
   nginx:
     image: nginx:1.24.0
@@ -105,11 +89,16 @@ services:
       TZ: Asia/Shanghai
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
-      - ${PROJECT_ROOT}:/usr/share/nginx/html:cached 
+      - ${PROJECT_ROOT}:/usr/share/nginx/html:cached
     ports:
       - "80:80"
     networks:
-      - dev_net
+      dev_net:
+        aliases:
+          - core.localhost
+          - oms.localhost
+          - wms.localhost
+          - pms.localhost
 
 volumes:
   mysql_data:
