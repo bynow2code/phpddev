@@ -29,7 +29,7 @@ services:
       dockerfile: php/Dockerfile
     environment:
       TZ: Asia/Shanghai
-      PHP_IDE_CONFIG: "serverName=core.localhost"
+      PHP_IDE_CONFIG: "serverName=core.local"
     expose:
       - "9000"
     volumes:
@@ -44,7 +44,7 @@ services:
       dockerfile: php/Dockerfile
     environment:
       TZ: Asia/Shanghai
-      PHP_IDE_CONFIG: "serverName=oms.localhost"
+      PHP_IDE_CONFIG: "serverName=oms.local"
     expose:
       - "9000"
     volumes:
@@ -59,7 +59,7 @@ services:
       dockerfile: php/Dockerfile
     environment:
       TZ: Asia/Shanghai
-      PHP_IDE_CONFIG: "serverName=wms.localhost"
+      PHP_IDE_CONFIG: "serverName=wms.local"
     expose:
       - "9000"
     volumes:
@@ -74,7 +74,7 @@ services:
       dockerfile: php/Dockerfile
     environment:
       TZ: Asia/Shanghai
-      PHP_IDE_CONFIG: "serverName=pms.localhost"
+      PHP_IDE_CONFIG: "serverName=pms.local"
     expose:
       - "9000"
     volumes:
@@ -95,10 +95,10 @@ services:
     networks:
       dev_net:
         aliases:
-          - core.localhost
-          - oms.localhost
-          - wms.localhost
-          - pms.localhost
+          - core.local
+          - oms.local
+          - wms.local
+          - pms.local
 
 volumes:
   mysql_data:
