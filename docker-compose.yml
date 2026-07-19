@@ -25,8 +25,8 @@ services:
 
   core:
     build:
-      context: .
-      dockerfile: php/Dockerfile
+      context: php
+      dockerfile: Dockerfile
     environment:
       TZ: Asia/Shanghai
       PHP_IDE_CONFIG: "serverName=core.test"
@@ -41,8 +41,8 @@ services:
 
   oms:
     build:
-      context: .
-      dockerfile: php/Dockerfile
+      context: php
+      dockerfile: Dockerfile
     environment:
       TZ: Asia/Shanghai
       PHP_IDE_CONFIG: "serverName=oms.test"
@@ -57,8 +57,8 @@ services:
 
   wms:
     build:
-      context: .
-      dockerfile: php/Dockerfile
+      context: php
+      dockerfile: Dockerfile
     environment:
       TZ: Asia/Shanghai
       PHP_IDE_CONFIG: "serverName=wms.test"
@@ -73,8 +73,8 @@ services:
 
   pms:
     build:
-      context: .
-      dockerfile: php/Dockerfile
+      context: php
+      dockerfile: Dockerfile
     environment:
       TZ: Asia/Shanghai
       PHP_IDE_CONFIG: "serverName=pms.test"
