@@ -1,8 +1,5 @@
 FROM php:8.3.6-fpm
 
-ARG USER_ID=1000
-ARG GROUP_ID=1000
-
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
 RUN install-php-extensions gd xdebug redis pdo_mysql zip
