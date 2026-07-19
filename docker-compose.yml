@@ -30,6 +30,7 @@ services:
     environment:
       TZ: Asia/Shanghai
       PHP_IDE_CONFIG: "serverName=core.test"
+    user: "${UID:-1000}:${GID:-1000}"
     expose:
       - "9000"
     volumes:
@@ -45,6 +46,7 @@ services:
     environment:
       TZ: Asia/Shanghai
       PHP_IDE_CONFIG: "serverName=oms.test"
+    user: "${UID:-1000}:${GID:-1000}"
     expose:
       - "9000"
     volumes:
@@ -60,6 +62,7 @@ services:
     environment:
       TZ: Asia/Shanghai
       PHP_IDE_CONFIG: "serverName=wms.test"
+    user: "${UID:-1000}:${GID:-1000}"
     expose:
       - "9000"
     volumes:
@@ -75,6 +78,7 @@ services:
     environment:
       TZ: Asia/Shanghai
       PHP_IDE_CONFIG: "serverName=pms.test"
+    user: "${UID:-1000}:${GID:-1000}"
     expose:
       - "9000"
     volumes:
