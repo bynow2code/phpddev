@@ -119,6 +119,7 @@ services:
           - oms.test
           - wms.test
           - pms.test
+          - mg.test
 
 volumes:
   mysql_data:
