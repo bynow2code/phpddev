@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
 
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
-RUN install-php-extensions gd xdebug redis pdo_mysql zip
+RUN install-php-extensions gd xdebug redis pdo_mysql zip sockets
 
 COPY conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 

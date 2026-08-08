@@ -87,6 +87,22 @@ services:
       - dev_net
     working_dir: /usr/share/nginx/html/pms
 
+  mg:
+    build:
+      context: php
+      dockerfile: Dockerfile
+    environment:
+      TZ: Asia/Shanghai
+      PHP_IDE_CONFIG: "serverName=mg.test"
+    user: "${UID:-1000}:${GID:-1000}"
+    expose:
+      - "9000"
+    volumes:
+      - ${PROJECT_ROOT}/mg:/usr/share/nginx/html/mg:cached
+    networks:
+      - dev_net
+    working_dir: /usr/share/nginx/html/mg
+
   nginx:
     image: nginx:1.24.0
     environment:
