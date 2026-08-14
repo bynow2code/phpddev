@@ -120,6 +120,12 @@ services:
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ${PROJECT_ROOT}:/usr/share/nginx/html:cached
+    depends_on:
+      - core
+      - oms
+      - wms
+      - pms
+      - mg
     ports:
       - "80:80"
     networks:
