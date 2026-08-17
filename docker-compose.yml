@@ -34,7 +34,7 @@ services:
     expose:
       - "9000"
     volumes:
-      - ${PROJECT_ROOT}/core:/usr/share/nginx/html/core:cached
+      - ${PROJECT_ROOT}:/usr/share/nginx/html:cached
     extra_hosts:
       - "host.docker.internal:host-gateway" # 原生 docker 不支持 host.docker.internal 解析，需要使用 extra_hosts 指定
     networks:
@@ -52,7 +52,7 @@ services:
     expose:
       - "9000"
     volumes:
-      - ${PROJECT_ROOT}/oms:/usr/share/nginx/html/oms:cached
+      - ${PROJECT_ROOT}:/usr/share/nginx/html:cached
     extra_hosts:
       - "host.docker.internal:host-gateway" # 原生 docker 不支持 host.docker.internal 解析，需要使用 extra_hosts 指定
     networks:
@@ -70,7 +70,7 @@ services:
     expose:
       - "9000"
     volumes:
-      - ${PROJECT_ROOT}/wms:/usr/share/nginx/html/wms:cached
+      - ${PROJECT_ROOT}:/usr/share/nginx/html:cached
     extra_hosts:
       - "host.docker.internal:host-gateway" # 原生 docker 不支持 host.docker.internal 解析，需要使用 extra_hosts 指定
     networks:
@@ -88,7 +88,7 @@ services:
     expose:
       - "9000"
     volumes:
-      - ${PROJECT_ROOT}/pms:/usr/share/nginx/html/pms:cached
+      - ${PROJECT_ROOT}:/usr/share/nginx/html:cached
     extra_hosts:
       - "host.docker.internal:host-gateway" # 原生 docker 不支持 host.docker.internal 解析，需要使用 extra_hosts 指定
     networks:
@@ -106,7 +106,7 @@ services:
     expose:
       - "9000"
     volumes:
-      - ${PROJECT_ROOT}/mg:/usr/share/nginx/html/mg:cached
+      - ${PROJECT_ROOT}:/usr/share/nginx/html:cached
     extra_hosts:
       - "host.docker.internal:host-gateway" # 原生 docker 不支持 host.docker.internal 解析，需要使用 extra_hosts 指定
     networks:
