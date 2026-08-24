@@ -1,5 +1,10 @@
 FROM php:8.3.6-fpm
 
+ARG UID=1000
+ARG GID=1000
+RUN groupadd -g ${GID} dev \
+    && useradd -u ${UID} -g ${GID} -m -s /bin/bash dev
+
 RUN apt-get update && apt-get install -y \
     htop \
     telnet \

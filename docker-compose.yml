@@ -27,6 +27,9 @@ services:
     build:
       context: php
       dockerfile: Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
     environment:
       TZ: Asia/Shanghai
       PHP_IDE_CONFIG: "serverName=core.test"
@@ -45,6 +48,9 @@ services:
     build:
       context: php
       dockerfile: Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
     environment:
       TZ: Asia/Shanghai
       PHP_IDE_CONFIG: "serverName=oms.test"
@@ -63,6 +69,9 @@ services:
     build:
       context: php
       dockerfile: Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
     environment:
       TZ: Asia/Shanghai
       PHP_IDE_CONFIG: "serverName=wms.test"
@@ -81,6 +90,9 @@ services:
     build:
       context: php
       dockerfile: Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
     environment:
       TZ: Asia/Shanghai
       PHP_IDE_CONFIG: "serverName=pms.test"
@@ -99,6 +111,9 @@ services:
     build:
       context: php
       dockerfile: Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
     environment:
       TZ: Asia/Shanghai
       PHP_IDE_CONFIG: "serverName=mg.test"
