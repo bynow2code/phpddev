@@ -19,3 +19,5 @@ RUN install-php-extensions gd xdebug redis pdo_mysql zip sockets
 COPY conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 COPY --from=composer:2.10.1 /usr/bin/composer /usr/bin/composer
+
+USER dev
