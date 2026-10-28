@@ -17,6 +17,7 @@ ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/relea
 RUN install-php-extensions gd xdebug redis pdo_mysql zip sockets
 
 COPY conf.d/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+COPY conf.d/timezone.ini /usr/local/etc/php/conf.d/timezone.ini
 
 COPY --from=composer:2.10.1 /usr/bin/composer /usr/bin/composer
 

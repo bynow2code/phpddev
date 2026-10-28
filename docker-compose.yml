@@ -3,8 +3,8 @@ services:
   mysql:
     image: mysql:8.0.45
     environment:
+      TZ: ${TZ:-Asia/Shanghai}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      TZ: Asia/Shanghai
     ports:
       - "3306:3306"
     volumes:
@@ -15,7 +15,7 @@ services:
   redis:
     image: redis:7.0.15
     environment:
-      TZ: Asia/Shanghai
+      TZ: ${TZ:-Asia/Shanghai}
     ports:
       - "6379:6379"
     volumes:
@@ -28,12 +28,12 @@ services:
       context: php
       dockerfile: Dockerfile
       args:
-        UID: ${UID:-1000}
-        GID: ${GID:-1000}
+        UID: ${WWWUSER:-1000}
+        GID: ${WWWGROUP:-1000}
     environment:
-      TZ: Asia/Shanghai
+      TZ: ${TZ:-Asia/Shanghai}
       PHP_IDE_CONFIG: "serverName=core.test"
-    user: "${UID:-1000}:${GID:-1000}"
+    user: "${WWWUSER:-1000}:${WWWGROUP:-1000}"
     expose:
       - "9000"
     volumes:
@@ -49,12 +49,12 @@ services:
       context: php
       dockerfile: Dockerfile
       args:
-        UID: ${UID:-1000}
-        GID: ${GID:-1000}
+        UID: ${WWWUSER:-1000}
+        GID: ${WWWGROUP:-1000}
     environment:
-      TZ: Asia/Shanghai
+      TZ: ${TZ:-Asia/Shanghai}
       PHP_IDE_CONFIG: "serverName=oms.test"
-    user: "${UID:-1000}:${GID:-1000}"
+    user: "${WWWUSER:-1000}:${WWWGROUP:-1000}"
     expose:
       - "9000"
     volumes:
@@ -70,12 +70,12 @@ services:
       context: php
       dockerfile: Dockerfile
       args:
-        UID: ${UID:-1000}
-        GID: ${GID:-1000}
+        UID: ${WWWUSER:-1000}
+        GID: ${WWWGROUP:-1000}
     environment:
-      TZ: Asia/Shanghai
+      TZ: ${TZ:-Asia/Shanghai}
       PHP_IDE_CONFIG: "serverName=wms.test"
-    user: "${UID:-1000}:${GID:-1000}"
+    user: "${WWWUSER:-1000}:${WWWGROUP:-1000}"
     expose:
       - "9000"
     volumes:
@@ -91,12 +91,12 @@ services:
       context: php
       dockerfile: Dockerfile
       args:
-        UID: ${UID:-1000}
-        GID: ${GID:-1000}
+        UID: ${WWWUSER:-1000}
+        GID: ${WWWGROUP:-1000}
     environment:
-      TZ: Asia/Shanghai
+      TZ: ${TZ:-Asia/Shanghai}
       PHP_IDE_CONFIG: "serverName=pms.test"
-    user: "${UID:-1000}:${GID:-1000}"
+    user: "${WWWUSER:-1000}:${WWWGROUP:-1000}"
     expose:
       - "9000"
     volumes:
@@ -112,12 +112,12 @@ services:
       context: php
       dockerfile: Dockerfile
       args:
-        UID: ${UID:-1000}
-        GID: ${GID:-1000}
+        UID: ${WWWUSER:-1000}
+        GID: ${WWWGROUP:-1000}
     environment:
-      TZ: Asia/Shanghai
+      TZ: ${TZ:-Asia/Shanghai}
       PHP_IDE_CONFIG: "serverName=mg.test"
-    user: "${UID:-1000}:${GID:-1000}"
+    user: "${WWWUSER:-1000}:${WWWGROUP:-1000}"
     expose:
       - "9000"
     volumes:
@@ -131,7 +131,7 @@ services:
   nginx:
     image: nginx:1.24.0
     environment:
-      TZ: Asia/Shanghai
+      TZ: ${TZ:-Asia/Shanghai}
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ${PROJECT_ROOT}:/usr/share/nginx/html:cached
