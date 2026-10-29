@@ -14,6 +14,7 @@
 | `mg` | 同上 | — | 项目 mg |
 | `mysql` | mysql:8.0.45 | `3306` | 数据库 |
 | `redis` | redis:7.0.15 | `6379` | 缓存 |
+| `rabbitmq` | rabbitmq:4.1-management | `5672` / `15672` | 消息队列（AMQP + Web 管理台） |
 
 站点域名：`core.test` / `oms.test` / `wms.test` / `pms.test` / `mg.test`
 
@@ -87,6 +88,8 @@ docker compose up -d --build
 | `MYSQL_ROOT_PASSWORD` | MySQL root 密码 | `root123` |
 | `WWWUSER` / `WWWGROUP` | 容器运行用户的 UID/GID，**须与宿主机当前用户一致** | `1000` |
 | `TZ` | 容器时区 | `Asia/Shanghai` |
+| `RABBITMQ_USER` / `RABBITMQ_PASSWORD` | RabbitMQ 登录凭据（**不可用 `guest`**） | `admin` / `admin123` |
+| `RABBITMQ_VHOST` | RabbitMQ 虚拟主机 | `/` |
 
 > `PROJECT_ROOT` 使用相对路径时，相对于 `docker-compose.yml` 所在目录。
 
@@ -113,6 +116,38 @@ docker compose config                         # 校验配置并输出解析结�
 # 强制重建（配置解析结果等价时 Compose 不会重建容器）
 docker compose up -d --force-recreate
 ```
+
+## RabbitMQ
+
+启动后即可使用：
+
+| 项目 | 值 |
+|------|-----|
+| Web 管理界面 | <http://localhost:15672> |
+| 宿主机 AMQP 地址 | `127.0.0.1:5672` |
+| 容器内 AMQP 地址 | `rabbitmq:5672`（PHP 容器内直接用主机名） |
+| 默认虚拟主机 | `/` |
+| 账号 / 密码 | `.env` 中的 `RABBITMQ_USER` / `RABBITMQ_PASSWORD`（默认 `admin` / `admin123`） |
+
+> **不要使用 `guest` 用户**：RabbitMQ 的 `guest` 默认只允许从 localhost 登录，PHP 容器属于远程连接会被拒绝（`ACCESS_REFUSED`）。因此这里默认创建 `admin` 用户。
+
+常用运维命令：
+
+```bash
+docker compose exec rabbitmq rabbitmqctl list_queues        # 查看队列
+docker compose exec rabbitmq rabbitmqctl list_connections   # 查看连接
+docker compose exec rabbitmq rabbitmq-diagnostics -q ping   # 健康检查
+docker compose logs -f --tail=100 rabbitmq                  # 跟踪日志
+```
+
+PHP 侧接入方式（二选一）：
+
+- **纯 PHP 库**（无需扩展，开箱可用）：`composer require php-amqplib/php-amqplib`，本项目 mg 项目即使用此方案（`PhpAmqpLib\Connection\AMQPStreamConnection`）
+- **amqp 扩展**（性能更好）：在 `php/Dockerfile` 的 `install-php-extensions` 参数中追加 `amqp`，然后 `docker compose up -d --build`
+
+是否需要扩展取决于依赖的库：`php-amqplib/php-amqplib` 是纯 PHP 实现，无需扩展；只有依赖 `ext-amqp` 的包（或直接使用 `AMQPConnection`/`AMQPChannel` 类）才需要。判断方法是看 `vendor/<包名>/composer.json` 里 require 的是 `php-amqplib/...` 还是 `ext-amqp`。
+
+> 项目 `.env` 中需注意：`RABBITMQ_HOST` 在容器内应填 `rabbitmq`（不能填 `127.0.0.1`），且不要使用 `guest` 用户。
 
 ## Xdebug 断点调试
 
@@ -220,3 +255,6 @@ NOTICE: [pool www] 'user' directive is ignored when FPM is not running as root
 | Xdebug 断点不生效 | 检查 PhpStorm 的 Server Name 是否等于 `PHP_IDE_CONFIG` 的 `serverName`、端口 `9003`、是否已开启监听；排查时可把 `xdebug.log_level` 改回 `7` |
 | 宿主机无法访问 `*.test` | 检查 `/etc/hosts` 是否配置了对应域名 |
 | MySQL 连接失败 | 确认已执行 `docker compose up -d` 且 `mysql` 容器为 `Up`；连接地址在容器内用 `mysql`，从宿主机用 `127.0.0.1:3306` |
+| RabbitMQ 报 `ACCESS_REFUSED` | 使用了 `guest` 用户（仅允许 localhost），改用 `.env` 中的 `admin` |
+| RabbitMQ 管理界面打不开 | 首次启动需 20~30 秒初始化，用 `docker compose ps rabbitmq` 确认状态为 `healthy` |
+| PHP 提示找不到 `AMQPConnection` 类 | 未安装 amqp 扩展，改用 `php-amqplib/php-amqplib`，或在 `php/Dockerfile` 增加 `amqp` 扩展后 `--build` |

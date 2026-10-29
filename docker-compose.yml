@@ -23,6 +23,28 @@ services:
     networks:
       - dev_net
 
+  rabbitmq:
+    image: rabbitmq:4.1-management
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      # 不要使用 guest 用户：guest 默认仅允许 localhost 连接，容器间无法访问
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-admin}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-admin123}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST:-/}
+    ports:
+      - "5672:5672"     # AMQP 协议端口
+      - "15672:15672"   # Web 管理界面
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - dev_net
+
   core:
     build:
       context: php
@@ -155,6 +177,7 @@ services:
 volumes:
   mysql_data:
   redis_data:
+  rabbitmq_data:
 
 networks:
   dev_net:
