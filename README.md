@@ -18,6 +18,8 @@
 
 站点域名：`core.test` / `oms.test` / `wms.test` / `pms.test` / `mg.test`
 
+> 除 nginx（`80`）外，MySQL / Redis / RabbitMQ 的端口均绑定在 `127.0.0.1`，仅宿主机本机可访问，局域网内其他机器无法连接；容器之间通过 Docker 内部网络通信，不受影响。
+
 PHP 内置扩展：`gd` `xdebug` `redis` `pdo_mysql` `zip` `sockets`，另装 `composer`。
 
 ## 目录结构
