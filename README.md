@@ -249,6 +249,9 @@ NOTICE: [pool www] 'user' directive is ignored when FPM is not running as root
 
 | 现象 | 原因与处理 |
 |------|-----------|
+| 构建报 `the --chmod option requires BuildKit` | 本机 `docker buildx` 插件缺失，Compose 回退到旧版 builder，`ADD --chmod` 不被支持。`php/Dockerfile` 已拆成 `ADD` + `RUN chmod +x`，两种 builder 均可用；若仍报错说明改的是旧文件，需重新 `--build` |
+| 提示 `docker: unknown command: docker compose` | 当前 Docker CLI 未安装 compose 插件（本机只有独立版 `docker-compose`），把命令里的 `docker compose` 换成 `docker-compose` |
+| RabbitMQ 反复重启，日志含 `Error when reading /var/lib/rabbitmq/.erlang.cookie: eacces` | 数据卷里的 `.erlang.cookie` 属主为 `root:root`（历史 root 运行残留），而容器以 uid 999 运行。执行 `docker run --rm -u root -v phpddev_rabbitmq_data:/data alpine chown 999:999 /data/.erlang.cookie` 后重启；无重要数据时也可直接 `docker volume rm phpddev_rabbitmq_data` 重建 |
 | 终端提示符显示 `I have no name!` | 镜像内 `dev` 用户 UID 与 `WWWUSER` 不一致，执行 `docker compose up -d --build` |
 | Laravel 报 `storage` / `bootstrap/cache` 无法写入 | 容器 UID 与宿主机文件属主不一致，运行 `./bin/init-env.sh` 后 `--build` |
 | 网站返回 **502** | ① PHP-FPM 未就绪，稍等重试；② PHP 容器重建后 IP 变化而 nginx 缓存了旧 IP，执行 `docker compose restart nginx` |

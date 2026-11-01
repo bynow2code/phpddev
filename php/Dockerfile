@@ -12,7 +12,10 @@ RUN apt-get update && apt-get install -y \
     iproute2 \
     && rm -rf /var/lib/apt/lists/*
 
-ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+# 注意：ADD --chmod 需要 BuildKit，本机 docker 无 buildx 插件会回退到旧版 builder 直接报错
+# 因此拆成「下载 + 手动 chmod」，两种 builder 都兼容
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/install-php-extensions
+RUN chmod +x /usr/local/bin/install-php-extensions
 
 RUN install-php-extensions gd xdebug redis pdo_mysql zip sockets
 
